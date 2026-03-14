@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VibeDown - Pro Converter</title>
+    <title>VibeDown - Pro Media Converter</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -15,142 +15,149 @@
             --primary-neon: #00f2ff;
             --secondary-neon: #7000ff;
             --border-color: rgba(0, 242, 255, 0.2);
-            --glow: 0 0 15px rgba(0, 242, 255, 0.3);
+            --glow: 0 0 20px rgba(0, 242, 255, 0.2);
         }
 
         [data-theme="light"] {
-            --bg-color: #f8fafc;
-            --card-bg: rgba(255, 255, 255, 0.98);
+            --bg-color: #f1f5f9;
+            --card-bg: #ffffff;
             --text-color: #1e293b;
-            --input-bg: #f1f5f9;
+            --input-bg: #f8fafc;
             --primary-neon: #0ea5e9;
             --secondary-neon: #6366f1;
             --border-color: #e2e8f0;
-            --glow: 0 0 10px rgba(14, 165, 233, 0.1);
+            --glow: 0 4px 15px rgba(0, 0, 0, 0.05);
         }
 
-        * { box-sizing: border-box; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        * { box-sizing: border-box; transition: all 0.3s ease; }
 
         body {
-            font-family: 'Cairo', 'Poppins', sans-serif;
+            font-family: 'Cairo', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
+            margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px;
         }
 
         .container {
-            width: 100%; max-width: 450px; padding: 2.5rem 2rem;
-            background: var(--card-bg); backdrop-filter: blur(15px);
-            border-radius: 30px; border: 2px solid var(--border-color);
-            box-shadow: var(--glow); margin-bottom: 25px; text-align: center;
+            width: 100%; max-width: 480px; padding: 3rem 2rem;
+            background: var(--card-bg); border-radius: 35px;
+            border: 2px solid var(--border-color); box-shadow: var(--glow);
+            text-align: center; position: relative;
         }
 
-        .btn-tool {
-            background: var(--input-bg); border: 1px solid var(--border-color);
-            color: var(--text-color); padding: 8px 14px; border-radius: 10px;
-            cursor: pointer; display: flex; align-items: center; gap: 6px; font-size: 0.9rem;
+        .btn-theme {
+            position: absolute; top: 20px; left: 20px; background: var(--input-bg);
+            border: 1px solid var(--border-color); color: var(--text-color);
+            width: 40px; height: 40px; border-radius: 50%; cursor: pointer;
         }
 
         .logo-main {
-            font-size: 2.5rem; font-weight: 800; color: var(--primary-neon);
-            text-shadow: 0 0 15px var(--primary-neon); margin-bottom: 5px;
+            font-size: 2.8rem; font-weight: 800; color: var(--primary-neon);
+            text-shadow: 0 0 10px var(--primary-neon); margin-bottom: 10px;
         }
 
-        .tagline { opacity: 0.7; font-size: 0.9rem; margin-bottom: 2rem; }
+        .tagline { opacity: 0.7; font-size: 0.9rem; margin-bottom: 2.5rem; }
 
-        input {
-            width: 100%; padding: 18px; border-radius: 15px; border: 1px solid var(--border-color);
+        .input-box {
+            width: 100%; padding: 18px; border-radius: 18px; border: 2px solid var(--border-color);
             background: var(--input-bg); color: var(--text-color); outline: none;
-            font-size: 1rem; text-align: center; margin-bottom: 1rem;
+            font-size: 1rem; text-align: center; margin-bottom: 1.5rem;
         }
-        input:focus { border-color: var(--primary-neon); box-shadow: 0 0 15px var(--primary-neon); }
+        .input-box:focus { border-color: var(--primary-neon); box-shadow: 0 0 15px var(--primary-neon); }
 
-        .action-btn {
-            width: 100%; background: linear-gradient(45deg, var(--primary-neon), var(--secondary-neon));
-            color: white; padding: 18px; border-radius: 15px; font-weight: 800; border: none;
-            cursor: pointer; font-family: 'Cairo'; font-size: 1.2rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        .btn-main {
+            width: 100%; padding: 18px; border-radius: 18px; border: none;
+            background: linear-gradient(45deg, var(--primary-neon), var(--secondary-neon));
+            color: white; font-weight: 800; font-size: 1.1rem; cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
-        .action-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 25px var(--primary-neon); }
+        .btn-main:hover { transform: translateY(-3px); box-shadow: 0 10px 25px var(--primary-neon); }
 
-        #resultBox {
-            display: none; margin-top: 2rem; padding: 20px;
-            background: rgba(0,0,0,0.3); border-radius: 20px; border: 1px solid var(--border-color);
+        /* منطقة الخيارات */
+        #optionsBox {
+            display: none; margin-top: 2.5rem; animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .option-card {
+            background: rgba(0,0,0,0.2); border: 1px solid var(--border-color);
+            padding: 20px; border-radius: 20px; margin-bottom: 15px;
         }
 
-        .dl-card {
-            background: var(--input-bg); border: 1px solid var(--border-color);
-            padding: 15px; border-radius: 15px; margin-bottom: 10px;
-            display: flex; flex-direction: column; gap: 10px;
-        }
-
-        .dl-link {
+        .dl-btn {
             display: flex; align-items: center; justify-content: center; gap: 10px;
-            width: 100%; padding: 14px; border-radius: 12px;
-            text-decoration: none; font-weight: bold; font-size: 1rem;
+            width: 100%; padding: 14px; border-radius: 12px; margin-top: 10px;
+            text-decoration: none; font-weight: bold; font-size: 0.95rem;
         }
-        .link-audio { background: #10b981; color: white; }
-        .link-video { background: #6366f1; color: white; }
-        .dl-link:hover { opacity: 0.9; transform: scale(1.02); }
+        .btn-audio { background: #10b981; color: white; }
+        .btn-video { background: #6366f1; color: white; }
 
-        .loading { display: none; margin: 20px 0; color: var(--primary-neon); }
-        .loading i { animation: spin 1s linear infinite; }
+        select {
+            width: 100%; padding: 10px; border-radius: 10px; background: var(--bg-color);
+            color: var(--text-color); border: 1px solid var(--border-color); margin-bottom: 10px;
+        }
+
+        .loader { display: none; margin: 20px auto; border: 4px solid rgba(255,255,255,0.1); border-top: 4px solid var(--primary-neon); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        .dev-signature { font-family: 'Poppins'; font-size: 0.9rem; margin-bottom: 20px; }
-        .dev-signature span { color: var(--primary-neon); font-weight: 800; }
+        .dev-sig { margin: 2rem 0; font-family: 'Poppins'; font-size: 0.9rem; opacity: 0.8; }
+        .dev-sig span { color: var(--primary-neon); font-weight: bold; }
 
-        .social-footer { display: flex; gap: 15px; margin-bottom: 30px; }
-        .social-icon { 
-            width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; 
-            justify-content: center; color: white; text-decoration: none; font-size: 1.4rem; 
-            background: var(--input-bg); border: 1px solid var(--border-color);
+        .social { display: flex; gap: 15px; justify-content: center; }
+        .social a { 
+            width: 45px; height: 45px; border-radius: 12px; background: var(--input-bg);
+            border: 1px solid var(--border-color); color: white; display: flex;
+            align-items: center; justify-content: center; text-decoration: none; font-size: 1.2rem;
         }
-        .social-icon:hover { transform: translateY(-5px); border-color: var(--primary-neon); box-shadow: 0 5px 15px rgba(0,242,255,0.2); }
+        .social a:hover { border-color: var(--primary-neon); transform: translateY(-3px); }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div style="display: flex; justify-content: space-between; margin-bottom: 1.5rem;">
-        <button class="btn-tool" onclick="toggleLang()" id="langBtn"><i class="fas fa-language"></i> EN</button>
-        <button class="btn-tool" onclick="toggleTheme()" id="themeBtn">🌙</button>
+    <button class="btn-theme" onclick="toggleTheme()" id="themeBtn">🌙</button>
+    <div style="text-align: left; margin-bottom: 10px;">
+        <button class="btn-theme" style="position: static; width: auto; padding: 0 10px;" onclick="toggleLang()" id="langBtn">EN</button>
     </div>
 
     <div class="logo-main">VibeDown</div>
-    <div class="tagline" id="tagline">أسرع تحويل بجودة 320kbps</div>
+    <div class="tagline" id="tagline">تحميل مباشر وسريع بجودة أصلية</div>
 
-    <input type="text" id="videoUrl" placeholder="انسخ رابط اليوتيوب هنا...">
-    <button class="action-btn" onclick="handleConvert()" id="btnConvert">تحميل الآن</button>
+    <input type="text" id="videoUrl" class="input-box" placeholder="ضع رابط الفيديو هنا...">
+    <button class="btn-main" onclick="processVideo()" id="btnStart">ابدأ الآن</button>
 
-    <div class="loading" id="loader">
-        <i class="fas fa-spinner fa-3x"></i>
-        <p id="loadText">جاري تجهيز الروابط...</p>
-    </div>
+    <div class="loader" id="loader"></div>
 
-    <div id="resultBox">
-        <div class="dl-card">
-            <span id="txtAudio" style="font-weight: bold; color: #10b981;">MP3 - 320kbps</span>
-            <div id="audioArea"></div>
+    <div id="optionsBox">
+        <div class="option-card">
+            <h4 id="txtAudTitle" style="margin:0 0 10px 0; color: #10b981;">🎧 ملف صوتي MP3</h4>
+            <p style="font-size: 0.8rem; opacity: 0.7;">High Quality 320kbps (Auto)</p>
+            <a href="#" id="audioLink" target="_blank" class="dl-btn btn-audio">
+                <i class="fas fa-music"></i> <span id="btnAudTxt">تحميل الصوت الآن</span>
+            </a>
         </div>
-        <div class="dl-card">
-            <span id="txtVideo" style="font-weight: bold; color: #6366f1;">MP4 - Full HD</span>
-            <div id="videoArea"></div>
+
+        <div class="option-card">
+            <h4 id="txtVidTitle" style="margin:0 0 10px 0; color: #6366f1;">🎬 فيديو MP4</h4>
+            <select id="videoQual">
+                <option value="1080">Full HD - 1080p</option>
+                <option value="720">HD - 720p</option>
+                <option value="480">SD - 480p</option>
+                <option value="360">Normal - 360p</option>
+            </select>
+            <a href="#" id="videoLink" target="_blank" class="dl-btn btn-video">
+                <i class="fas fa-video"></i> <span id="btnVidTxt">تحميل الفيديو</span>
+            </a>
         </div>
     </div>
 </div>
 
-<div class="dev-signature">Developed by <span>Osama</span></div>
+<div class="dev-sig">Developed by <span>Osama</span></div>
 
-<div class="social-footer">
-    <a href="https://wa.me/message/FJEGUNCJ4JX7P1" class="social-icon" target="_blank"><i class="fab fa-whatsapp"></i></a>
-    <a href="https://www.instagram.com/osamamasrawy?igsh=MWJqcnhhMWd6MjNxNQ%3D%3D" class="social-icon" target="_blank"><i class="fab fa-instagram"></i></a>
-    <a href="https://www.facebook.com/share/18TtS2GVNi/" class="social-icon" target="_blank"><i class="fab fa-facebook-f"></i></a>
+<div class="social">
+    <a href="https://wa.me/message/FJEGUNCJ4JX7P1" target="_blank"><i class="fab fa-whatsapp"></i></a>
+    <a href="https://www.instagram.com/osamamasrawy" target="_blank"><i class="fab fa-instagram"></i></a>
+    <a href="https://www.facebook.com/share/18TtS2GVNi/" target="_blank"><i class="fab fa-facebook-f"></i></a>
 </div>
 
 <script>
@@ -165,54 +172,53 @@
         const newLang = isAr ? 'en' : 'ar';
         document.documentElement.setAttribute('lang', newLang);
         document.documentElement.setAttribute('dir', isAr ? 'ltr' : 'rtl');
-        document.getElementById('langBtn').innerHTML = isAr ? '<i class="fas fa-language"></i> AR' : '<i class="fas fa-language"></i> EN';
+        document.getElementById('langBtn').innerText = isAr ? 'AR' : 'EN';
         
         const t = {
-            ar: { tag: "أسرع تحويل بجودة 320kbps", placeholder: "انسخ رابط اليوتيوب هنا...", btn: "تحميل الآن", load: "جاري تجهيز الروابط..." },
-            en: { tag: "Fastest 320kbps Converter", placeholder: "Paste YouTube link here...", btn: "Download Now", load: "Preparing Links..." }
+            ar: { tag: "تحميل مباشر وسريع بجودة أصلية", ph: "ضع رابط الفيديو هنا...", btn: "ابدأ الآن", aud: "تحميل الصوت الآن", vid: "تحميل الفيديو" },
+            en: { tag: "Direct & Fast Original Quality Download", ph: "Paste video link here...", btn: "Start Now", aud: "Download Audio Now", vid: "Download Video" }
         }[newLang];
 
         document.getElementById('tagline').innerText = t.tag;
-        document.getElementById('videoUrl').placeholder = t.placeholder;
-        document.getElementById('btnConvert').innerText = t.btn;
-        document.getElementById('loadText').innerText = t.load;
+        document.getElementById('videoUrl').placeholder = t.ph;
+        document.getElementById('btnStart').innerText = t.btn;
+        document.getElementById('btnAudTxt').innerText = t.aud;
+        document.getElementById('btnVidTxt').innerText = t.vid;
+    }
+
+    function processVideo() {
+        const url = document.getElementById('videoUrl').value;
+        if(!url.includes('youtube.com') && !url.includes('youtu.be')) {
+            alert("من فضلك ضع رابط يوتيوب صحيح");
+            return;
+        }
+
+        document.getElementById('loader').style.display = 'block';
+        document.getElementById('optionsBox').style.display = 'none';
+
+        // ربط الروابط بخدمة التحميل
+        setTimeout(() => {
+            const audioLink = document.getElementById('audioLink');
+            const videoLink = document.getElementById('videoLink');
+            const qual = document.getElementById('videoQual').value;
+
+            // استخدام محرك Cobalt القوي
+            audioLink.href = `https://cobalt.tools/api/json?url=${encodeURIComponent(url)}&isAudioOnly=true&aFormat=mp3`;
+            videoLink.href = `https://cobalt.tools/api/json?url=${encodeURIComponent(url)}&vRes=${qual}`;
+
+            // للطريقة الأسهل والمباشرة جداً للمستخدم:
+            audioLink.href = `https://api.vevioz.com/api/button/mp3/${extractID(url)}`;
+            videoLink.href = `https://api.vevioz.com/api/button/videos/${extractID(url)}`;
+
+            document.getElementById('loader').style.display = 'none';
+            document.getElementById('optionsBox').style.display = 'block';
+        }, 1200);
     }
 
     function extractID(url) {
         const reg = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
         const match = url.match(reg);
         return (match && match[2].length === 11) ? match[2] : null;
-    }
-
-    function handleConvert() {
-        const url = document.getElementById('videoUrl').value;
-        const id = extractID(url);
-        if (!id) { alert("Invalid URL!"); return; }
-
-        const loader = document.getElementById('loader');
-        const resBox = document.getElementById('resultBox');
-        
-        loader.style.display = 'block';
-        resBox.style.display = 'none';
-
-        // استخدام محرك تحويل مباشر يدعم الجودات العالية
-        const audioUrl = `https://api.deemix.biz/download?id=${id}&type=mp3&q=320`; // مثال لمحرك جودة عالية
-        const videoUrl = `https://www.y2mate.com/youtube/${id}`; // يوجه المستخدم لخيارات الجودة مباشرة
-
-        setTimeout(() => {
-            loader.style.display = 'none';
-            resBox.style.display = 'block';
-            
-            document.getElementById('audioArea').innerHTML = `
-                <a href="https://loader.to/api/button/?url=${url}&f=mp3&color=10b981" target="_blank" class="dl-link link-audio">
-                    <i class="fas fa-music"></i> Download 320kbps MP3
-                </a>`;
-            
-            document.getElementById('videoArea').innerHTML = `
-                <a href="https://loader.to/api/button/?url=${url}&f=1080&color=6366f1" target="_blank" class="dl-link link-video">
-                    <i class="fas fa-video"></i> Download MP4 (Up to 4K)
-                </a>`;
-        }, 1500);
     }
 </script>
 </body>
