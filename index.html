@@ -39,45 +39,43 @@
         }
 
         .container {
-            width: 100%; max-width: 480px; padding: 3rem 2rem;
+            width: 100%; max-width: 480px; padding: 2rem;
             background: var(--card-bg); border-radius: 35px;
             border: 2px solid var(--border-color); box-shadow: var(--glow);
-            text-align: center; position: relative;
+            text-align: center;
         }
 
-        .btn-theme {
-            position: absolute; top: 20px; left: 20px; background: var(--input-bg);
-            border: 1px solid var(--border-color); color: var(--text-color);
-            width: 40px; height: 40px; border-radius: 50%; cursor: pointer;
+        /* إصلاح تداخل الأزرار */
+        .top-bar {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;
+        }
+
+        .btn-tool {
+            background: var(--input-bg); border: 1px solid var(--border-color);
+            color: var(--text-color); padding: 8px 15px; border-radius: 12px;
+            cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; gap: 8px;
         }
 
         .logo-main {
-            font-size: 2.8rem; font-weight: 800; color: var(--primary-neon);
-            text-shadow: 0 0 10px var(--primary-neon); margin-bottom: 10px;
+            font-size: 2.5rem; font-weight: 800; color: var(--primary-neon);
+            text-shadow: 0 0 10px var(--primary-neon); margin-bottom: 5px;
         }
 
-        .tagline { opacity: 0.7; font-size: 0.9rem; margin-bottom: 2.5rem; }
+        .tagline { opacity: 0.7; font-size: 0.9rem; margin-bottom: 2rem; }
 
         .input-box {
             width: 100%; padding: 18px; border-radius: 18px; border: 2px solid var(--border-color);
             background: var(--input-bg); color: var(--text-color); outline: none;
-            font-size: 1rem; text-align: center; margin-bottom: 1.5rem;
+            font-size: 1rem; text-align: center; margin-bottom: 1rem;
         }
-        .input-box:focus { border-color: var(--primary-neon); box-shadow: 0 0 15px var(--primary-neon); }
 
         .btn-main {
             width: 100%; padding: 18px; border-radius: 18px; border: none;
             background: linear-gradient(45deg, var(--primary-neon), var(--secondary-neon));
             color: white; font-weight: 800; font-size: 1.1rem; cursor: pointer;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
-        .btn-main:hover { transform: translateY(-3px); box-shadow: 0 10px 25px var(--primary-neon); }
 
-        /* منطقة الخيارات */
-        #optionsBox {
-            display: none; margin-top: 2.5rem; animation: fadeIn 0.5s ease;
-        }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        #optionsBox { display: none; margin-top: 2rem; }
 
         .option-card {
             background: rgba(0,0,0,0.2); border: 1px solid var(--border-color);
@@ -87,72 +85,57 @@
         .dl-btn {
             display: flex; align-items: center; justify-content: center; gap: 10px;
             width: 100%; padding: 14px; border-radius: 12px; margin-top: 10px;
-            text-decoration: none; font-weight: bold; font-size: 0.95rem;
-        }
-        .btn-audio { background: #10b981; color: white; }
-        .btn-video { background: #6366f1; color: white; }
-
-        select {
-            width: 100%; padding: 10px; border-radius: 10px; background: var(--bg-color);
-            color: var(--text-color); border: 1px solid var(--border-color); margin-bottom: 10px;
+            text-decoration: none; font-weight: bold; color: white;
         }
 
         .loader { display: none; margin: 20px auto; border: 4px solid rgba(255,255,255,0.1); border-top: 4px solid var(--primary-neon); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        .dev-sig { margin: 2rem 0; font-family: 'Poppins'; font-size: 0.9rem; opacity: 0.8; }
-        .dev-sig span { color: var(--primary-neon); font-weight: bold; }
-
-        .social { display: flex; gap: 15px; justify-content: center; }
+        .social { display: flex; gap: 15px; justify-content: center; margin-top: 20px; }
         .social a { 
             width: 45px; height: 45px; border-radius: 12px; background: var(--input-bg);
             border: 1px solid var(--border-color); color: white; display: flex;
-            align-items: center; justify-content: center; text-decoration: none; font-size: 1.2rem;
+            align-items: center; justify-content: center; text-decoration: none;
         }
-        .social a:hover { border-color: var(--primary-neon); transform: translateY(-3px); }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <button class="btn-theme" onclick="toggleTheme()" id="themeBtn">🌙</button>
-    <div style="text-align: left; margin-bottom: 10px;">
-        <button class="btn-theme" style="position: static; width: auto; padding: 0 10px;" onclick="toggleLang()" id="langBtn">EN</button>
+    <div class="top-bar">
+        <button class="btn-tool" onclick="toggleLang()" id="langBtn"><i class="fas fa-language"></i> EN</button>
+        <button class="btn-tool" onclick="toggleTheme()" id="themeBtn"><i class="fas fa-moon"></i></button>
     </div>
 
     <div class="logo-main">VibeDown</div>
     <div class="tagline" id="tagline">تحميل مباشر وسريع بجودة أصلية</div>
 
     <input type="text" id="videoUrl" class="input-box" placeholder="ضع رابط الفيديو هنا...">
-    <button class="btn-main" onclick="processVideo()" id="btnStart">ابدأ الآن</button>
+    <button class="btn-main" onclick="processVideo()" id="btnStart">تحميل</button>
 
     <div class="loader" id="loader"></div>
 
     <div id="optionsBox">
         <div class="option-card">
-            <h4 id="txtAudTitle" style="margin:0 0 10px 0; color: #10b981;">🎧 ملف صوتي MP3</h4>
-            <p style="font-size: 0.8rem; opacity: 0.7;">High Quality 320kbps (Auto)</p>
-            <a href="#" id="audioLink" target="_blank" class="dl-btn btn-audio">
-                <i class="fas fa-music"></i> <span id="btnAudTxt">تحميل الصوت الآن</span>
-            </a>
+            <h4 style="margin:0 0 10px 0; color: #10b981;">🎧 MP3 - 320kbps</h4>
+            <button onclick="download('mp3')" class="dl-btn" style="background: #10b981; border:none; cursor:pointer; width:100%">
+                <i class="fas fa-music"></i> <span id="txtAud">تحميل الصوت الآن</span>
+            </button>
         </div>
 
         <div class="option-card">
-            <h4 id="txtVidTitle" style="margin:0 0 10px 0; color: #6366f1;">🎬 فيديو MP4</h4>
-            <select id="videoQual">
-                <option value="1080">Full HD - 1080p</option>
-                <option value="720">HD - 720p</option>
-                <option value="480">SD - 480p</option>
-                <option value="360">Normal - 360p</option>
+            <h4 style="margin:0 0 10px 0; color: #6366f1;">🎬 MP4 - Video</h4>
+            <select id="videoQual" class="input-box" style="margin-bottom: 10px; padding: 10px;">
+                <option value="1080">1080p Full HD</option>
+                <option value="720">720p HD</option>
+                <option value="480">480p SD</option>
             </select>
-            <a href="#" id="videoLink" target="_blank" class="dl-btn btn-video">
-                <i class="fas fa-video"></i> <span id="btnVidTxt">تحميل الفيديو</span>
-            </a>
+            <button onclick="download('video')" class="dl-btn" style="background: #6366f1; border:none; cursor:pointer; width:100%">
+                <i class="fas fa-video"></i> <span id="txtVid">تحميل الفيديو</span>
+            </button>
         </div>
     </div>
 </div>
-
-<div class="dev-sig">Developed by <span>Osama</span></div>
 
 <div class="social">
     <a href="https://wa.me/message/FJEGUNCJ4JX7P1" target="_blank"><i class="fab fa-whatsapp"></i></a>
@@ -164,7 +147,7 @@
     function toggleTheme() {
         const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
         document.documentElement.setAttribute('data-theme', next);
-        document.getElementById('themeBtn').innerText = next === 'light' ? '☀️' : '🌙';
+        document.getElementById('themeBtn').innerHTML = next === 'light' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
     }
 
     function toggleLang() {
@@ -172,53 +155,46 @@
         const newLang = isAr ? 'en' : 'ar';
         document.documentElement.setAttribute('lang', newLang);
         document.documentElement.setAttribute('dir', isAr ? 'ltr' : 'rtl');
-        document.getElementById('langBtn').innerText = isAr ? 'AR' : 'EN';
+        document.getElementById('langBtn').innerHTML = isAr ? '<i class="fas fa-language"></i> AR' : '<i class="fas fa-language"></i> EN';
         
-        const t = {
-            ar: { tag: "تحميل مباشر وسريع بجودة أصلية", ph: "ضع رابط الفيديو هنا...", btn: "ابدأ الآن", aud: "تحميل الصوت الآن", vid: "تحميل الفيديو" },
-            en: { tag: "Direct & Fast Original Quality Download", ph: "Paste video link here...", btn: "Start Now", aud: "Download Audio Now", vid: "Download Video" }
-        }[newLang];
-
-        document.getElementById('tagline').innerText = t.tag;
-        document.getElementById('videoUrl').placeholder = t.ph;
-        document.getElementById('btnStart').innerText = t.btn;
-        document.getElementById('btnAudTxt').innerText = t.aud;
-        document.getElementById('btnVidTxt').innerText = t.vid;
-    }
-
-    function processVideo() {
-        const url = document.getElementById('videoUrl').value;
-        if(!url.includes('youtube.com') && !url.includes('youtu.be')) {
-            alert("من فضلك ضع رابط يوتيوب صحيح");
-            return;
-        }
-
-        document.getElementById('loader').style.display = 'block';
-        document.getElementById('optionsBox').style.display = 'none';
-
-        // ربط الروابط بخدمة التحميل
-        setTimeout(() => {
-            const audioLink = document.getElementById('audioLink');
-            const videoLink = document.getElementById('videoLink');
-            const qual = document.getElementById('videoQual').value;
-
-            // استخدام محرك Cobalt القوي
-            audioLink.href = `https://cobalt.tools/api/json?url=${encodeURIComponent(url)}&isAudioOnly=true&aFormat=mp3`;
-            videoLink.href = `https://cobalt.tools/api/json?url=${encodeURIComponent(url)}&vRes=${qual}`;
-
-            // للطريقة الأسهل والمباشرة جداً للمستخدم:
-            audioLink.href = `https://api.vevioz.com/api/button/mp3/${extractID(url)}`;
-            videoLink.href = `https://api.vevioz.com/api/button/videos/${extractID(url)}`;
-
-            document.getElementById('loader').style.display = 'none';
-            document.getElementById('optionsBox').style.display = 'block';
-        }, 1200);
+        document.getElementById('tagline').innerText = isAr ? "Direct & Fast Original Quality Download" : "تحميل مباشر وسريع بجودة أصلية";
+        document.getElementById('videoUrl').placeholder = isAr ? "Paste video link here..." : "ضع رابط الفيديو هنا...";
+        document.getElementById('btnStart').innerText = isAr ? "Download" : "تحميل";
+        document.getElementById('txtAud').innerText = isAr ? "Download Audio Now" : "تحميل الصوت الآن";
+        document.getElementById('txtVid').innerText = isAr ? "Download Video" : "تحميل الفيديو";
     }
 
     function extractID(url) {
         const reg = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
         const match = url.match(reg);
         return (match && match[2].length === 11) ? match[2] : null;
+    }
+
+    function processVideo() {
+        const url = document.getElementById('videoUrl').value;
+        if(!extractID(url)) { alert("رابط غير صحيح"); return; }
+        
+        document.getElementById('loader').style.display = 'block';
+        document.getElementById('optionsBox').style.display = 'none';
+
+        setTimeout(() => {
+            document.getElementById('loader').style.display = 'none';
+            document.getElementById('optionsBox').style.display = 'block';
+        }, 1000);
+    }
+
+    function download(type) {
+        const url = document.getElementById('videoUrl').value;
+        const id = extractID(url);
+        const qual = document.getElementById('videoQual').value;
+        
+        if(type === 'mp3') {
+            // استخدام رابط مباشر لمحرك التحميل
+            window.open(`https://api.vevioz.com/api/button/mp3/${id}`, '_blank');
+        } else {
+            // استخدام محرك يدعم اختيار الجودة
+            window.open(`https://api.vevioz.com/api/button/videos/${id}`, '_blank');
+        }
     }
 </script>
 </body>
