@@ -45,7 +45,6 @@
             text-align: center;
         }
 
-        /* إصلاح تداخل الأزرار */
         .top-bar {
             display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;
         }
@@ -74,8 +73,10 @@
             background: linear-gradient(45deg, var(--primary-neon), var(--secondary-neon));
             color: white; font-weight: 800; font-size: 1.1rem; cursor: pointer;
         }
+        .btn-main:hover { transform: scale(1.02); box-shadow: 0 0 20px var(--primary-neon); }
 
-        #optionsBox { display: none; margin-top: 2rem; }
+        #optionsBox { display: none; margin-top: 2rem; animation: slideUp 0.4s ease; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
         .option-card {
             background: rgba(0,0,0,0.2); border: 1px solid var(--border-color);
@@ -85,18 +86,22 @@
         .dl-btn {
             display: flex; align-items: center; justify-content: center; gap: 10px;
             width: 100%; padding: 14px; border-radius: 12px; margin-top: 10px;
-            text-decoration: none; font-weight: bold; color: white;
+            text-decoration: none; font-weight: bold; color: white; cursor: pointer; border: none;
         }
 
         .loader { display: none; margin: 20px auto; border: 4px solid rgba(255,255,255,0.1); border-top: 4px solid var(--primary-neon); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        .social { display: flex; gap: 15px; justify-content: center; margin-top: 20px; }
+        .dev-sig { margin: 20px 0; font-family: 'Poppins'; font-size: 0.9rem; opacity: 0.6; }
+        .dev-sig span { color: var(--primary-neon); font-weight: 800; }
+
+        .social { display: flex; gap: 15px; justify-content: center; }
         .social a { 
             width: 45px; height: 45px; border-radius: 12px; background: var(--input-bg);
             border: 1px solid var(--border-color); color: white; display: flex;
             align-items: center; justify-content: center; text-decoration: none;
         }
+        .social a:hover { border-color: var(--primary-neon); transform: translateY(-3px); }
     </style>
 </head>
 <body>
@@ -118,24 +123,21 @@
     <div id="optionsBox">
         <div class="option-card">
             <h4 style="margin:0 0 10px 0; color: #10b981;">🎧 MP3 - 320kbps</h4>
-            <button onclick="download('mp3')" class="dl-btn" style="background: #10b981; border:none; cursor:pointer; width:100%">
+            <button onclick="downloadNow()" class="dl-btn" style="background: #10b981;">
                 <i class="fas fa-music"></i> <span id="txtAud">تحميل الصوت الآن</span>
             </button>
         </div>
 
         <div class="option-card">
             <h4 style="margin:0 0 10px 0; color: #6366f1;">🎬 MP4 - Video</h4>
-            <select id="videoQual" class="input-box" style="margin-bottom: 10px; padding: 10px;">
-                <option value="1080">1080p Full HD</option>
-                <option value="720">720p HD</option>
-                <option value="480">480p SD</option>
-            </select>
-            <button onclick="download('video')" class="dl-btn" style="background: #6366f1; border:none; cursor:pointer; width:100%">
+            <button onclick="downloadNow()" class="dl-btn" style="background: #6366f1;">
                 <i class="fas fa-video"></i> <span id="txtVid">تحميل الفيديو</span>
             </button>
         </div>
     </div>
 </div>
+
+<div class="dev-sig">Developed by <span>Osama</span></div>
 
 <div class="social">
     <a href="https://wa.me/message/FJEGUNCJ4JX7P1" target="_blank"><i class="fab fa-whatsapp"></i></a>
@@ -164,15 +166,12 @@
         document.getElementById('txtVid').innerText = isAr ? "Download Video" : "تحميل الفيديو";
     }
 
-    function extractID(url) {
-        const reg = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-        const match = url.match(reg);
-        return (match && match[2].length === 11) ? match[2] : null;
-    }
-
     function processVideo() {
         const url = document.getElementById('videoUrl').value;
-        if(!extractID(url)) { alert("رابط غير صحيح"); return; }
+        if(!url.includes('youtube.com') && !url.includes('youtu.be')) {
+            alert("من فضلك ضع رابط يوتيوب صحيح");
+            return;
+        }
         
         document.getElementById('loader').style.display = 'block';
         document.getElementById('optionsBox').style.display = 'none';
@@ -180,21 +179,21 @@
         setTimeout(() => {
             document.getElementById('loader').style.display = 'none';
             document.getElementById('optionsBox').style.display = 'block';
-        }, 1000);
+        }, 800);
     }
 
-    function download(type) {
+    function downloadNow() {
         const url = document.getElementById('videoUrl').value;
-        const id = extractID(url);
-        const qual = document.getElementById('videoQual').value;
-        
-        if(type === 'mp3') {
-            // استخدام رابط مباشر لمحرك التحميل
-            window.open(`https://api.vevioz.com/api/button/mp3/${id}`, '_blank');
-        } else {
-            // استخدام محرك يدعم اختيار الجودة
-            window.open(`https://api.vevioz.com/api/button/videos/${id}`, '_blank');
-        }
+        // الطريقة الأضمن: استخدام محرك y2mate الموثوق من خلال رابط البحث
+        // ده هيفتح الصفحة مباشرة على الفيديو بتاعك وتقدر تختار 320kbps في ثانية
+        const downloadUrl = `https://www.y2mate.com/youtube/${extractID(url)}`;
+        window.open(downloadUrl, '_blank');
+    }
+
+    function extractID(url) {
+        const reg = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        const match = url.match(reg);
+        return (match && match[2].length === 11) ? match[2] : null;
     }
 </script>
 </body>
