@@ -12,7 +12,7 @@
             --neon: #00f2ff; --neon2: #7000ff; --border: rgba(0, 242, 255, 0.2);
         }
         [data-theme="light"] {
-            --bg: #f8fafc; --card: #ffffff; --text: #1e293b;
+            --bg: #f1f5f9; --card: #ffffff; --text: #1e293b;
             --neon: #0ea5e9; --neon2: #6366f1; --border: #e2e8f0;
         }
         body {
@@ -24,7 +24,7 @@
             border-radius: 35px; border: 2px solid var(--border); box-shadow: 0 15px 35px rgba(0,0,0,0.4);
             text-align: center;
         }
-        /* حل نهائي لتداخل الأزرار */
+        /* حل نهائي لمشكلة الأزرار */
         .top-bar {
             display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;
         }
@@ -33,13 +33,12 @@
             padding: 8px 15px; border-radius: 12px; cursor: pointer; font-size: 0.85rem;
             display: flex; align-items: center; gap: 8px;
         }
-        .logo { font-size: 3.2rem; font-weight: 900; color: var(--neon); text-shadow: 0 0 15px var(--neon); margin: 0; }
+        .logo { font-size: 3rem; font-weight: 900; color: var(--neon); text-shadow: 0 0 15px var(--neon); margin: 0; }
         .tagline { opacity: 0.7; font-size: 0.95rem; margin-bottom: 30px; }
         
-        .input-group { position: relative; margin-bottom: 20px; }
         input {
             width: 100%; padding: 18px; border-radius: 15px; border: 2px solid var(--border);
-            background: rgba(0,0,0,0.2); color: var(--text); outline: none; text-align: center; font-size: 1rem;
+            background: rgba(0,0,0,0.2); color: var(--text); outline: none; text-align: center; font-size: 1rem; margin-bottom: 20px;
         }
         input:focus { border-color: var(--neon); box-shadow: 0 0 15px var(--neon); }
         
@@ -69,13 +68,10 @@
     </div>
 
     <h1 class="logo">VibeDown</h1>
-    <p class="tagline" id="tag">تحميل مباشر بجودة أصلية</p>
+    <p class="tagline" id="tag">أسرع تحميل بأعلى جودة أصلية</p>
 
-    <div class="input-group">
-        <input type="text" id="urlInput" placeholder="ضع رابط اليوتيوب هنا...">
-    </div>
-
-    <button class="main-btn" onclick="openDownloader()" id="btnText">بدء التحميل</button>
+    <input type="text" id="urlInput" placeholder="ضع رابط اليوتيوب هنا...">
+    <button class="main-btn" onclick="downloadNow()" id="btnText">تحميل الآن</button>
 
     <div class="sig">Developed by <span>Osama</span></div>
 
@@ -99,33 +95,20 @@
         document.documentElement.setAttribute('lang', isAr ? 'en' : 'ar');
         document.documentElement.setAttribute('dir', isAr ? 'ltr' : 'rtl');
         document.getElementById('langBtn').innerHTML = isAr ? '<i class="fas fa-language"></i> AR' : '<i class="fas fa-language"></i> EN';
-        document.getElementById('tag').innerText = isAr ? "Direct High-Quality Download" : "تحميل مباشر بجودة أصلية";
+        document.getElementById('tag').innerText = isAr ? "Fastest Original Quality Download" : "أسرع تحميل بأعلى جودة أصلية";
         document.getElementById('urlInput').placeholder = isAr ? "Paste YouTube link here..." : "ضع رابط اليوتيوب هنا...";
-        document.getElementById('btnText').innerText = isAr ? "Start Download" : "بدء التحميل";
+        document.getElementById('btnText').innerText = isAr ? "Download Now" : "تحميل الآن";
     }
 
-    function openDownloader() {
+    function downloadNow() {
         const url = document.getElementById('urlInput').value;
-        if (!url) { alert("من فضلك ضع الرابط أولاً!"); return; }
+        if (!url) { alert("من فضلك ضع الرابط!"); return; }
 
-        // الطريقة اللي هتكسر أي حماية:
-        // هنستخدم محرك yt1s.com.co بس هنوجهه للفيديو بتاعك مباشرة
-        // لو الرابط فيه & أو حشو هنشيله عشان المحرك ميهيسش
-        let cleanUrl = url.split('&')[0];
-        
-        // دي أفضل طريقة لفتح صفحة التحميل في المحرك ده للفيديو بتاعك
-        const target = `https://yt1s.com.co/en193/api/search?q=${encodeURIComponent(cleanUrl)}`;
-        
-        // الحل البديل والأكثر استقراراً في 2026:
-        const finalUrl = `https://www.y2mate.com/youtube/${extractID(url)}`;
+        // الطريقة اللي مستحيل تفشل: SS Method
+        // بنحول youtube.com لـ ssyoutube.com وده بيفتح صفحة التحميل فوراً للفيديو بتاعك
+        let finalUrl = url.replace("youtube.com", "ssyoutube.com").replace("youtu.be/", "ssyoutube.com/watch?v=");
         
         window.open(finalUrl, '_blank');
-    }
-
-    function extractID(url) {
-        const reg = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-        const match = url.match(reg);
-        return (match && match[2].length === 11) ? match[2] : "";
     }
 </script>
 </body>
